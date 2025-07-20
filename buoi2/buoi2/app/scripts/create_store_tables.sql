@@ -23,6 +23,30 @@ GO
 
 CREATE TABLE users (
     id INT IDENTITY(1,1) PRIMARY KEY,
+
+CREATE TABLE customers (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name NVARCHAR(255) NOT NULL,
+    phone NVARCHAR(20) NOT NULL,
+    address NVARCHAR(255) NULL,
+    purchase_count INT NOT NULL DEFAULT 0,
+    total_amount DECIMAL(13,2) NOT NULL DEFAULT 0,
+    created_at DATETIME DEFAULT GETDATE()
+);
+GO
+
+CREATE TABLE orders (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    user_id INT NULL,
+    customer_id INT NULL,
+    payment_method NVARCHAR(50) NOT NULL,
+    customer_name NVARCHAR(255) NULL,
+    phone NVARCHAR(20) NULL,
+    status NVARCHAR(50) NOT NULL DEFAULT 'đang chờ xử lý',
+    created_at DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (customer_id) REFERENCES customers(id)
+);
+GO
     username NVARCHAR(255) NOT NULL UNIQUE,
     password NVARCHAR(255) NOT NULL,
     role NVARCHAR(50) NOT NULL DEFAULT 'customer',
